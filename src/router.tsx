@@ -58,9 +58,9 @@ const router = createBrowserRouter([
         }),
       },
       {
-        path: 'chats',
+        path: 'clip',
         lazy: async () => ({
-          Component: (await import('@/components/coming-soon')).default,
+          Component: (await import('@/pages/clip')).default,
         }),
       },
       {
