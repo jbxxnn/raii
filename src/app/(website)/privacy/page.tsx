@@ -11,7 +11,7 @@ const PrivacyPolicy = () => (
       </p>
     </section>
     <section className="mb-8">
-      <h2 className="text-xl font-semibold mb-2">Information We Collect</h2>
+      <h2 className="text-xl font-semibold mb-2">Information We Collect.</h2>
       <ul className="list-disc list-inside ml-4">
         <li>Personal Information: such as your name, email address, and payment details when you register or make a purchase.</li>
         <li>Usage Data: information about how you use SlideAi, including access times, pages viewed, and your interactions with our features.</li>
