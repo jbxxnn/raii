@@ -80,6 +80,10 @@ export async function POST(req: NextRequest) {
                   role: 'assistant',
                   content: `${automation.listener?.prompt}: Keep responses under 2 sentences`,
                 },
+                {
+                  role: 'user',
+                  content: webhook_payload.entry[0].messaging[0].message.text,
+                },
               ],
             })
 
@@ -189,6 +193,10 @@ export async function POST(req: NextRequest) {
                   {
                     role: 'assistant',
                     content: `${automation.listener?.prompt}: keep responses under 2 sentences`,
+                  },
+                  {
+                    role: 'user',
+                    content: webhook_payload.entry[0].changes[0].value.text,
                   },
                 ],
               })
