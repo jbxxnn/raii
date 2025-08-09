@@ -212,7 +212,7 @@ export async function POST(req: NextRequest) {
                 const direct_message = await sendPrivateMessage(
                   webhook_payload.entry[0].id,
                   webhook_payload.entry[0].changes[0].value.id,
-                  automation.listener?.prompt,
+                  smart_ai_message.choices[0].message.content,
                   automation.User?.integrations[0].token!
                 )
 
