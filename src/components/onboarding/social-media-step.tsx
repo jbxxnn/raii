@@ -42,6 +42,13 @@ export function SocialMediaStep({ onNext, instagramConnected }: SocialMediaStepP
         name: platform.name
       })
       setModalOpen(true)
+    } else if (platform.status === 'connected') {
+      // Show connected account details modal
+      setSelectedPlatform({
+        strategy: platform.strategy || platform.id.toUpperCase() as any,
+        name: platform.name
+      })
+      setModalOpen(true)
     }
   }
 
@@ -197,6 +204,11 @@ export function SocialMediaStep({ onNext, instagramConnected }: SocialMediaStepP
           }}
           platform={selectedPlatform.strategy}
           platformName={selectedPlatform.name}
+          isConnected={selectedPlatform.strategy === 'INSTAGRAM' ? !!isInstagramConnected : false}
+          connectedAccountData={selectedPlatform.strategy === 'INSTAGRAM' && isInstagramConnected 
+            ? data?.data?.integrations.find((integration) => integration.name === 'INSTAGRAM') 
+            : null
+          }
         />
       )}
     </Card>

@@ -12,9 +12,11 @@ interface IntegrationModalProps {
   onClose: () => void
   platform: 'INSTAGRAM' | 'TIKTOK' | 'WHATSAPP' | 'MESSENGER' | 'TELEGRAM'
   platformName: string
+  isConnected?: boolean
+  connectedAccountData?: any
 }
 
-export function IntegrationModal({ isOpen, onClose, platform, platformName }: IntegrationModalProps) {
+export function IntegrationModal({ isOpen, onClose, platform, platformName, isConnected = false, connectedAccountData }: IntegrationModalProps) {
   const [isConnecting, setIsConnecting] = useState(false)
 
   const handleConnect = async () => {
@@ -26,6 +28,79 @@ export function IntegrationModal({ isOpen, onClose, platform, platformName }: In
       alert(`${platformName} integration coming soon!`)
       onClose()
     }
+  }
+
+  const handleDisconnect = () => {
+    // TODO: Implement disconnect functionality
+    console.log('Disconnect account')
+    onClose()
+  }
+
+  const handleAddAnotherAccount = () => {
+    if (platform === 'INSTAGRAM') {
+      setIsConnecting(true)
+      onOAuthInstagram('INSTAGRAM', '/onboarding')
+    }
+  }
+
+  const renderConnectedAccountView = () => {
+    return (
+      <>
+        <div className="py-6">
+          {renderPlatformIcons()}
+          
+          <div className="text-center space-y-4">
+            <h2 className="text-lg font-bold text-black">
+              {platformName} account (1)
+            </h2>
+          </div>
+
+          {/* Connected Account Details */}
+          <div className="mt-6 space-y-3">
+            <div className="flex items-center justify-between p-3 border rounded-lg bg-gray-50">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center">
+                  <span className="text-sm font-medium text-gray-600">
+                    {connectedAccountData?.name ? connectedAccountData.name.charAt(0).toUpperCase() : 'R'}
+                  </span>
+                </div>
+                <span className="font-medium text-black">
+                  {connectedAccountData?.name || 'Rasheed.ux'}
+                </span>
+              </div>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleDisconnect}
+                className="text-red-600 border-red-200 hover:bg-red-50"
+              >
+                Disconnect
+              </Button>
+            </div>
+          </div>
+        </div>
+
+        <div className="space-y-3 flex flex-col items-center justify-center">
+          <Button
+            onClick={handleAddAnotherAccount}
+            disabled={isConnecting}
+            variant="ghost"
+            className="w-auto text-brand-500 hover:text-brand-600"
+          >
+            {isConnecting ? (
+              <>
+                <div className="w-4 h-4 border-2 border-brand-500 border-t-transparent rounded-full animate-spin mr-2" />
+                Connecting...
+              </>
+            ) : (
+              <>
+                Add another account +
+              </>
+            )}
+          </Button>
+        </div>
+      </>
+    )
   }
 
   const renderPlatformIcons = () => {
@@ -71,50 +146,54 @@ export function IntegrationModal({ isOpen, onClose, platform, platformName }: In
           </Button>
         </DialogHeader>
         
-        <div className="py-6">
-          {renderPlatformIcons()}
-          
-          <div className="text-center space-y-4">
-            <h2 className="text-lg font-bold text-black">
-              Connect {platformName} account with Slide
-            </h2>
-            <p className="text-black text-sm">
-              Log in with {platformName} and set your permissions. Once that&apos;s done, you&apos;re all set to connect to slide.
-            </p>
-          </div>
-        </div>
+        {isConnected ? renderConnectedAccountView() : (
+          <>
+            <div className="py-6">
+              {renderPlatformIcons()}
+              
+              <div className="text-center space-y-4">
+                <h2 className="text-lg font-bold text-black">
+                  Connect {platformName} account with Slide
+                </h2>
+                <p className="text-black text-sm">
+                  Log in with {platformName} and set your permissions. Once that&apos;s done, you&apos;re all set to connect to slide.
+                </p>
+              </div>
+            </div>
 
-        <div className="space-y-3 flex flex-col items-center justify-center">
-          <Button
-            onClick={handleConnect}
-            disabled={isConnecting}
-            className="w-auto h-12 bg-brand-500 hover:bg-brand-600 text-white font-medium"
-          >
-            {isConnecting ? (
-              <>
-                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2" />
-                Connecting...
-              </>
-            ) : (
-              <>
-                Connect with {platformName}
-                <svg className="w-4 h-4 ml-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M7 17L17 7M17 7H7M17 7V17"/>
-                </svg>
-              </>
-            )}
-          </Button>
-          
-          {/* {platform === 'INSTAGRAM' && (
-            <Button
-              variant="ghost"
-              className="w-auto text-brand-500 hover:text-brand-600"
-              onClick={onClose}
-            >
-              Continue with Meta Business Suite Instead
-            </Button>
-          )} */}
-        </div>
+            <div className="space-y-3 flex flex-col items-center justify-center">
+              <Button
+                onClick={handleConnect}
+                disabled={isConnecting}
+                className="w-auto h-12 bg-brand-500 hover:bg-brand-600 text-white font-medium"
+              >
+                {isConnecting ? (
+                  <>
+                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2" />
+                    Connecting...
+                  </>
+                ) : (
+                  <>
+                    Connect with {platformName}
+                    <svg className="w-4 h-4 ml-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M7 17L17 7M17 7H7M17 7V17"/>
+                    </svg>
+                  </>
+                )}
+              </Button>
+              
+              {/* {platform === 'INSTAGRAM' && (
+                <Button
+                  variant="ghost"
+                  className="w-auto text-brand-500 hover:text-brand-600"
+                  onClick={onClose}
+                >
+                  Continue with Meta Business Suite Instead
+                </Button>
+              )} */}
+            </div>
+          </>
+        )}
       </DialogContent>
     </Dialog>
   )
