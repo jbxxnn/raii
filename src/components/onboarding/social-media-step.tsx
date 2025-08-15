@@ -33,6 +33,8 @@ export function SocialMediaStep({ onNext, instagramConnected }: SocialMediaStepP
   const { data } = useQuery({
     queryKey: ['user-profile'],
     queryFn: onUserInfo,
+    staleTime: 0,
+    refetchOnMount: true,
   })
 
   const handlePlatformClick = (platform: any) => {
