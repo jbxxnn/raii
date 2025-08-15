@@ -56,3 +56,20 @@ export const onIntegrate = async (code: string) => {
     return { status: 500 }
   }
 }
+
+export const getInstagramProfile = async (token: string) => {
+  try {
+    const response = await axios.get(
+      `${process.env.INSTAGRAM_BASE_URL}/me?fields=username,account_type,media_count,profile_picture_url&access_token=${token}`
+    )
+    return {
+      username: response.data.username,
+      profilePicture: response.data.profile_picture_url,
+      accountType: response.data.account_type,
+      mediaCount: response.data.media_count
+    }
+  } catch (error) {
+    console.log('Error fetching Instagram profile:', error)
+    return null
+  }
+}

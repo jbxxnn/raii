@@ -4,8 +4,9 @@ import React, { useState } from 'react'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import { X, Link } from 'lucide-react'
-import { onOAuthInstagram } from '@/actions/integrations'
+import { onOAuthInstagram, getInstagramProfile } from '@/actions/integrations'
 import Image from 'next/image'
+import { useEffect } from 'react'
 
 interface IntegrationModalProps {
   isOpen: boolean
@@ -18,6 +19,32 @@ interface IntegrationModalProps {
 
 export function IntegrationModal({ isOpen, onClose, platform, platformName, isConnected = false, connectedAccountData }: IntegrationModalProps) {
   const [isConnecting, setIsConnecting] = useState(false)
+  const [instagramProfile, setInstagramProfile] = useState<{
+    username: string
+    profilePicture: string
+    accountType: string
+    mediaCount: number
+  } | null>(null)
+  const [loadingProfile, setLoadingProfile] = useState(false)
+
+  // Fetch Instagram profile when modal opens for connected account
+  useEffect(() => {
+    const fetchInstagramProfile = async () => {
+      if (isConnected && platform === 'INSTAGRAM' && connectedAccountData?.token && isOpen) {
+        setLoadingProfile(true)
+        try {
+          const profile = await getInstagramProfile(connectedAccountData.token)
+          setInstagramProfile(profile)
+        } catch (error) {
+          console.error('Failed to fetch Instagram profile:', error)
+        } finally {
+          setLoadingProfile(false)
+        }
+      }
+    }
+
+    fetchInstagramProfile()
+  }, [isConnected, platform, connectedAccountData?.token, isOpen])
 
   const handleConnect = async () => {
     if (platform === 'INSTAGRAM') {
@@ -59,13 +86,27 @@ export function IntegrationModal({ isOpen, onClose, platform, platformName, isCo
           <div className="mt-6 space-y-3">
             <div className="flex items-center justify-between p-3 border rounded-lg bg-gray-50">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center">
-                  <span className="text-sm font-medium text-gray-600">
-                    {connectedAccountData?.name ? connectedAccountData.name.charAt(0).toUpperCase() : 'R'}
-                  </span>
-                </div>
+                {loadingProfile ? (
+                  <div className="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center animate-pulse">
+                    <span className="text-sm font-medium text-gray-600">...</span>
+                  </div>
+                ) : instagramProfile?.profilePicture ? (
+                  <Image
+                    src={instagramProfile.profilePicture}
+                    alt={`${instagramProfile.username} profile`}
+                    width={40}
+                    height={40}
+                    className="w-10 h-10 rounded-full object-cover"
+                  />
+                ) : (
+                  <div className="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center">
+                    <span className="text-sm font-medium text-gray-600">
+                      {instagramProfile?.username ? instagramProfile.username.charAt(0).toUpperCase() : 'R'}
+                    </span>
+                  </div>
+                )}
                 <span className="font-medium text-black">
-                  {connectedAccountData?.name || 'Rasheed.ux'}
+                  {loadingProfile ? 'Loading...' : (instagramProfile?.username || 'Username')}
                 </span>
               </div>
               <Button
