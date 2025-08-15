@@ -1,9 +1,16 @@
 import React, { Suspense } from 'react'
 import { OnboardingFlow } from '@/components/onboarding'
+import { onBoardUser } from '@/actions/user'
+import { redirect } from 'next/navigation'
 
 type Props = {}
 
-const OnboardingPage = (props: Props) => {
+const OnboardingPage = async (props: Props) => {
+  // Handle user onboarding - create user in database
+  const user = await onBoardUser()
+  if (user.status !== 200 && user.status !== 201) {
+    return redirect('/sign-in')
+  }
   return (
     <div className="grid min-h-svh lg:grid-cols-[60%_40%]">
       <div className="flex flex-col gap-4 p-6 md:p-10">
