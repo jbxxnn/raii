@@ -1,8 +1,13 @@
-export const InstagramBlue = () => {
+type InstagramBlueProps = {
+    width: number
+    height: number
+}
+
+export const InstagramBlue = ({ width, height }: InstagramBlueProps) => {
     return (
         <svg
-            width="16"
-            height="16"
+            width={width}
+            height={height}
             viewBox="0 0 16 16"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"

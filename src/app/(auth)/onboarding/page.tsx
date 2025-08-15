@@ -2,6 +2,7 @@ import React, { Suspense } from 'react'
 import { OnboardingFlow } from '@/components/onboarding'
 import { onBoardUser } from '@/actions/user'
 import { redirect } from 'next/navigation'
+import Image from 'next/image'
 
 type Props = {}
 
@@ -16,12 +17,7 @@ const OnboardingPage = async (props: Props) => {
       <div className="flex flex-col gap-4 p-6 md:p-10">
         <div className="flex justify-center gap-2 md:justify-start">
           <a href="#" className="flex items-center gap-2 font-medium">
-            <div className="bg-primary text-primary-foreground flex size-6 items-center justify-center rounded-md">
-              <svg className="size-4" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M3 3h18v18H3V3zm2 2v14h14V5H5z"/>
-              </svg>
-            </div>
-            Slide
+           <Image src="/slide-logo-black.png" alt="Slide" width={100} height={100} />
           </a>
         </div>
         <div className="flex flex-1 items-center justify-center">
