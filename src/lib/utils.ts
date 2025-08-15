@@ -12,3 +12,10 @@ export function getMonth(month: number): string {
   ]
   return months[month - 1] || 'Jan'
 }
+
+export function duplicateValidation(array: string[], item: string): string[] {
+  if (array.includes(item)) {
+    return array.filter(existingItem => existingItem !== item)
+  }
+  return [...array, item]
+}
