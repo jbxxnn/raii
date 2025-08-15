@@ -30,7 +30,7 @@ const PostNode = ({ id }: Props) => {
         </div>
         <div className="bg-background-80 p-3 rounded-xl flex flex-col gap-y-2">
           <div className="flex gap-x-2 items-center">
-            <InstagramBlue />
+            <InstagramBlue width={24} height={24} />
             <p className="font-bold text-lg">These posts</p>
           </div>
           <div className="flex gap-x-2 flex-wrap mt-3">
