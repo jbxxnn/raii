@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import { OnboardingFlow } from '@/components/onboarding'
 
 type Props = {}
@@ -19,7 +19,9 @@ const OnboardingPage = (props: Props) => {
         </div>
         <div className="flex flex-1 items-center justify-center">
           <div className="w-full max-w-lg">
-            <OnboardingFlow />
+            <Suspense fallback={<div className="flex items-center justify-center">Loading...</div>}>
+              <OnboardingFlow />
+            </Suspense>
           </div>
         </div>
       </div>
