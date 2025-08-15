@@ -6,7 +6,10 @@ type Props = {
 
 const Layout = ({ children }: Props) => {
   return (
-    <div className="h-screen flex justify-center items-center">{children}</div>
+    // <div className="h-screen flex justify-center items-center">{children}</div>
+    <div>
+      {children}
+    </div>
   )
 }
 

@@ -9,11 +9,9 @@ import { HelpDuoToneWhite } from '@/icons'
 import { SubscriptionPlan } from '../subscription-plan'
 import UpgradeCard from './upgrade'
 
-type Props = {
-  slug: string
-}
+type Props = {}
 
-const Sidebar = ({ slug }: Props) => {
+const Sidebar = (props: Props) => {
   const { page } = usePaths()
 
   return (
@@ -54,7 +52,6 @@ const Sidebar = ({ slug }: Props) => {
         <div className="flex flex-col py-3">
           <Items
             page={page}
-            slug={slug}
           />
         </div>
         <div className="px-16">

@@ -13,12 +13,9 @@ import {
 
 type Props = {
   children: React.ReactNode
-  params: { slug: string }
 }
 
-const Layout = async ({ children, params }: Props) => {
-
-
+const Layout = async ({ children }: Props) => {
   const query = new QueryClient()
 
   await PrefetchUserProfile(query)
@@ -28,7 +25,7 @@ const Layout = async ({ children, params }: Props) => {
   return (
     <HydrationBoundary state={dehydrate(query)}>
       <div className="p-3">
-        <Sidebar slug={params.slug} />
+        <Sidebar />
         <div
           className="
       lg:ml-[250px] 
@@ -39,7 +36,7 @@ const Layout = async ({ children, params }: Props) => {
       overflow-auto
       "
         >
-          <InfoBar slug={params.slug} />
+          <InfoBar />
           {children}
         </div>
       </div>

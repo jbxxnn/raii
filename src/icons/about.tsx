@@ -1,11 +1,18 @@
-export const About = () => {
+interface AboutProps {
+    width?: number
+    height?: number
+    className?: string
+}
+
+export const About = ({ width = 24, height = 24, className }: AboutProps) => {
     return (
         <svg
-            width="24"
-            height="24"
+            width={width}
+            height={height}
             viewBox="0 0 24 24"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
+            className={className}
         >
             <circle cx="12" cy="12" r="10" fill="#292929" />
             <circle cx="12" cy="18" r="1" fill="#545454" />

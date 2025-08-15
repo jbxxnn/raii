@@ -17,13 +17,11 @@ import Search from './search'
 import { Notifications } from './notifications'
 import MainBreadCrumb from '../bread-crumbs/main-bread-crumb'
 
-type Props = {
-  slug: string
-}
+type Props = {}
 
-const InfoBar = ({ slug }: Props) => {
+const InfoBar = (props: Props) => {
   const { page } = usePaths()
-  const currentPage = PAGE_BREAD_CRUMBS.includes(page) || page == slug
+  const currentPage = PAGE_BREAD_CRUMBS.includes(page) || page == 'home'
 
   return (
     currentPage && (
@@ -42,7 +40,6 @@ const InfoBar = ({ slug }: Props) => {
                 <div className="flex flex-col py-3">
                   <Items
                     page={page}
-                    slug={slug}
                   />
                 </div>
                 <div className="px-16">
@@ -74,8 +71,7 @@ const InfoBar = ({ slug }: Props) => {
           <Notifications />
         </div>
         <MainBreadCrumb
-          page={page === slug ? 'Home' : page}
-          slug={slug}
+          page={page === 'home' ? 'Home' : page}
         />
       </div>
     )

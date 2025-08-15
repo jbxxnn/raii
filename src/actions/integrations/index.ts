@@ -6,9 +6,18 @@ import { createIntegration, getIntegration } from './queries'
 import { generateTokens } from '@/lib/fetch'
 import axios from 'axios'
 
-export const onOAuthInstagram = (strategy: 'INSTAGRAM' | 'CRM') => {
+export const onOAuthInstagram = (strategy: 'INSTAGRAM' | 'CRM', returnTo?: string) => {
   if (strategy === 'INSTAGRAM') {
-    return redirect(process.env.INSTAGRAM_EMBEDDED_OAUTH_URL as string)
+    const baseUrl = process.env.INSTAGRAM_EMBEDDED_OAUTH_URL as string
+    
+    if (returnTo) {
+      // Add state parameter to OAuth URL for return handling
+      const separator = baseUrl.includes('?') ? '&' : '?'
+      const redirectUrl = `${baseUrl}${separator}state=${encodeURIComponent(returnTo)}`
+      return redirect(redirectUrl)
+    }
+    
+    return redirect(baseUrl)
   }
 }
 
