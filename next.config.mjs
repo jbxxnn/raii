@@ -33,7 +33,15 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'scontent-syd2-1.cdninstagram.com'
-      }
+      },
+      {
+        protocol: 'https',
+        hostname: 'scontent-iad3-2.cdninstagram.com'
+      },
+      {
+        protocol: 'https',
+        hostname: 'scontent-lhr8-1.cdninstagram.com'
+      },
     ],
   },
 }

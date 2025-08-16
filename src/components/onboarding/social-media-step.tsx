@@ -30,7 +30,7 @@ export function SocialMediaStep({ onNext, instagramConnected }: SocialMediaStepP
     name: string
   } | null>(null)
 
-  const { data } = useQuery({
+  const { data, isLoading, error } = useQuery({
     queryKey: ['user-profile'],
     queryFn: onUserInfo,
     staleTime: 0,
