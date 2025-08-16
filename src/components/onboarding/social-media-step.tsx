@@ -32,9 +32,27 @@ export function SocialMediaStep({ onNext, instagramConnected }: SocialMediaStepP
 
   const { data, isLoading, error } = useQuery({
     queryKey: ['user-profile'],
-    queryFn: onUserInfo,
+    queryFn: async () => {
+      console.log('🔍 Starting onUserInfo call...')
+      try {
+        const result = await onUserInfo()
+        console.log('🔍 onUserInfo result:', result)
+        return result
+      } catch (err) {
+        console.error('🔴 onUserInfo client error:', err)
+        throw err
+      }
+    },
     staleTime: 0,
     refetchOnMount: true,
+  })
+
+  // Debug React Query state
+  console.log('🔍 React Query Debug:', {
+    isLoading,
+    error,
+    data,
+    hasData: !!data
   })
 
   const handlePlatformClick = (platform: any) => {
@@ -65,6 +83,14 @@ export function SocialMediaStep({ onNext, instagramConnected }: SocialMediaStepP
   // Check if Instagram is connected
   const isInstagramConnected = instagramConnected || 
     data?.data?.integrations.find((integration) => integration.name === 'INSTAGRAM')
+
+  // Debug logging
+  console.log('🔍 Onboarding Debug:', {
+    instagramConnected,
+    userData: data?.data,
+    integrations: data?.data?.integrations,
+    isInstagramConnected
+  })
 
   const socialPlatforms: SocialPlatform[] = [
     {

@@ -10,6 +10,11 @@ import { stripe } from '@/lib/stripe'
 
 export const onCurrentUser = async () => {
   const user = await currentUser()
+  console.log('🔍 onCurrentUser Debug:', {
+    hasUser: !!user,
+    userId: user?.id,
+    userEmail: user?.emailAddresses?.[0]?.emailAddress
+  })
   if (!user) return redirect('/sign-in')
 
   return user
@@ -70,10 +75,16 @@ export const onUserInfo = async () => {
   const user = await onCurrentUser()
   try {
     const profile = await findUser(user.id)
+    console.log('🔍 onUserInfo Debug:', {
+      userId: user.id,
+      profile,
+      integrations: profile?.integrations
+    })
     if (profile) return { status: 200, data: profile }
 
     return { status: 404 }
   } catch (error) {
+    console.log('🔴 onUserInfo Error:', error)
     return { status: 500 }
   }
 }
